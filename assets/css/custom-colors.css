@@ -390,3 +390,29 @@ body {
 .main header.major {
     margin-top: -2em !important;
 }
+
+/* Mobile responsive adjustments */
+@media (max-width: 736px) {
+    /* Restore normal margins for mobile devices */
+    .main header.major {
+        margin-top: 0 !important;
+    }
+    
+    /* Hide navigation buttons on mobile devices */
+    #header .actions {
+        display: none !important;
+    }
+    
+    /* Ensure proper order for Research section on mobile - title first, then image */
+    #research .row.gtr-150 {
+        flex-direction: column;
+    }
+    
+    #research .col-6.col-12-medium:first-child {
+        order: 1;
+    }
+    
+    #research .col-6.col-12-medium.imp-medium {
+        order: 2;
+    }
+}
