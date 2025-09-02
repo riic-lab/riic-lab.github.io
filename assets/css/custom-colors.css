@@ -222,6 +222,8 @@ body {
     background-color: #2f3a80ff !important;
     color: #d5daf4ff !important;
     border-color: #5867c3ff !important;
+    position: relative;
+    z-index: 4;
 }
 
 #header .actions .button:hover {
@@ -382,4 +384,9 @@ body {
 .main .major,
 .main.special .major {
     text-align: left !important;
+}
+
+/* Reduce top margin for section headers to bring them closer to the top */
+.main header.major {
+    margin-top: -2em !important;
 }

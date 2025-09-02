@@ -20,7 +20,7 @@
 /* Ensure header content stays above the starry overlay */
 #header .inner {
     position: relative;
-    z-index: 2;
+    z-index: 3;
 }
 
 /* Add a semi-transparent blue overlay on top of the starry sky */

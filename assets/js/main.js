@@ -26,7 +26,18 @@
 			}, 100);
 		});
 
-	// Scrolly.
-		$('.scrolly').scrolly();
+	// Custom smooth scrolling for navigation buttons
+	$('.scrolly').on('click', function(e) {
+		var href = $(this).attr('href');
+		if (href.charAt(0) === '#') {
+			e.preventDefault();
+			var target = $(href);
+			if (target.length) {
+				$('html, body').animate({
+					scrollTop: target.offset().top
+				}, 1000, 'swing');
+			}
+		}
+	});
 
 })(jQuery);
