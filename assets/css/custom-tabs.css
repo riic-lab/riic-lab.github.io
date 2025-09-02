@@ -1,0 +1,39 @@
+/* Custom styles for four separate tab lines */
+
+/* Remove the single centered line */
+#header .actions:after {
+    display: none;
+}
+
+/* Create individual lines for each tab */
+#header .actions li {
+    position: relative;
+}
+
+#header .actions li:after {
+    background: #ffffff;
+    content: '';
+    height: 100vh;
+    left: 50%;
+    position: absolute;
+    top: 100%;
+    width: 1px;
+    transform: translateX(-50%);
+}
+
+/* Ensure proper spacing and positioning */
+#header .actions {
+    position: relative;
+}
+
+#header .actions li {
+    margin: 0 0.5em;
+}
+
+/* Responsive adjustments for mobile */
+@media screen and (max-width: 480px) {
+    #header .actions li:after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
