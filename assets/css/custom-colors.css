@@ -415,4 +415,16 @@ body {
     #research .col-6.col-12-medium.imp-medium {
         order: 2;
     }
+    
+    /* Make header take up full screen height on mobile */
+    #header {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    #header .inner {
+        width: 100%;
+    }
 }
