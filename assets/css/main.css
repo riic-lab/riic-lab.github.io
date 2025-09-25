@@ -2913,7 +2913,9 @@ input, select, textarea {
 /* Header */
 
 	#header {
-		padding: 9em 0 9em 0 ;
+		padding: 0;
+		height: 100vh;
+		min-height: 100vh;
 		background-color: #4686a0;
 		color: rgba(255, 255, 255, 0.75);
 		background-attachment: fixed,							fixed,							fixed;
@@ -2923,6 +2925,9 @@ input, select, textarea {
 		overflow: hidden;
 		position: relative;
 		text-align: center;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 
 		#header a {
@@ -3021,6 +3026,7 @@ input, select, textarea {
 			margin-top: 2.5em;
 			margin-left: 0;
 			position: relative;
+			flex-wrap: wrap;
 		}
 
 			#header .actions li:first-child {
@@ -3053,6 +3059,8 @@ input, select, textarea {
 			opacity: 1;
 			position: relative;
 			z-index: 1;
+			width: 100%;
+			max-width: 100%;
 		}
 
 			#header .inner .actions {
@@ -3237,7 +3245,8 @@ input, select, textarea {
 		/* Header */
 
 			#header {
-				padding: 6em 0 6em 0 ;
+				height: 100vh;
+				min-height: 100vh;
 			}
 
 	}
@@ -3281,7 +3290,8 @@ input, select, textarea {
 		/* Header */
 
 			#header {
-				padding: 5em 0 5em 0 ;
+				height: 100vh;
+				min-height: 100vh;
 				background-attachment: scroll;
 			}
 
@@ -3323,7 +3333,9 @@ input, select, textarea {
 		/* Header */
 
 			#header {
-				padding: 8em 3em 8em 3em ;
+				height: 100vh;
+				min-height: 100vh;
+				padding: 0 3em;
 			}
 
 		/* Footer */
@@ -3414,7 +3426,9 @@ input, select, textarea {
 		/* Header */
 
 			#header {
-				padding: 4em 3em 4em 3em ;
+				height: 100vh;
+				min-height: 100vh;
+				padding: 0 3em;
 			}
 
 				#header .actions {
@@ -3451,7 +3465,9 @@ input, select, textarea {
 		/* Header */
 
 			#header {
-				padding: 4em 2em 4em 2em ;
+				height: 100vh;
+				min-height: 100vh;
+				padding: 0 2em;
 			}
 
 				#header br {
@@ -3500,7 +3516,13 @@ input, select, textarea {
 		/* Header */
 
 			#header {
-				padding: 3em 1em 3em 1em ;
+				height: 100vh;
+				min-height: 100vh;
+				padding: 0 1em;
+			}
+
+			#header .inner {
+				padding: 1em 0;
 			}
 
 		/* Footer */
