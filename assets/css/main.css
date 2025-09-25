@@ -2936,14 +2936,14 @@ html, body {
 	}
 
 /* Prefer dynamic viewport units when supported (fixes iOS Safari URL bar) */
-@supports (height: 100dvh) {
+@supports (height: 100svh) {
 	#header {
-		height: 100dvh;
-		min-height: 100dvh;
+		height: 100svh; /* Small visible viewport height (stable with transparent bars) */
+		min-height: 100svh;
 	}
 
 	#header .actions:after {
-		height: 100dvh;
+		height: 100svh;
 	}
 }
 
@@ -2952,6 +2952,8 @@ html, body {
 	#header {
 		height: -webkit-fill-available;
 		min-height: -webkit-fill-available;
+		padding-top: max(env(safe-area-inset-top), 0px);
+		padding-bottom: max(env(safe-area-inset-bottom), 0px);
 	}
 }
 
