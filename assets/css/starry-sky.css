@@ -36,3 +36,11 @@
     background: rgba(15, 20, 50, 0.9);
     z-index: 2;
 }
+
+/* Use dynamic viewport units when available to cover full iOS viewport */
+@supports (height: 100dvh) {
+    #header::before,
+    #header::after {
+        min-height: 100dvh;
+    }
+}

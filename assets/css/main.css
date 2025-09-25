@@ -86,6 +86,11 @@ input, select, textarea {
 		background: #fff;
 	}
 
+/* Ensure full-height context for mobile Safari calculations */
+html, body {
+	height: 100%;
+}
+
 		body.is-preload *, body.is-preload *:before, body.is-preload *:after {
 			-moz-animation: none !important;
 			-webkit-animation: none !important;
@@ -2929,6 +2934,26 @@ input, select, textarea {
 		align-items: center;
 		justify-content: center;
 	}
+
+/* Prefer dynamic viewport units when supported (fixes iOS Safari URL bar) */
+@supports (height: 100dvh) {
+	#header {
+		height: 100dvh;
+		min-height: 100dvh;
+	}
+
+	#header .actions:after {
+		height: 100dvh;
+	}
+}
+
+/* WebKit fallback for older iOS Safari */
+@supports (-webkit-touch-callout: none) {
+	#header {
+		height: -webkit-fill-available;
+		min-height: -webkit-fill-available;
+	}
+}
 
 		#header a {
 			border-bottom-color: rgba(255, 255, 255, 0.5);
