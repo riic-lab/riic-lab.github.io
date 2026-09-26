@@ -26,6 +26,19 @@
 		$window.on('load', function() { window.setTimeout(reveal, 100); });
 		$(function() { window.setTimeout(reveal, 800); });
 
+	// Slim top menu: visible only while the full-screen header is scrolled away.
+		var $header = $('#header'), $topnav = $('#topnav');
+		var updateNav = function() {
+			$body.toggleClass('nav-visible', $window.scrollTop() > $header.outerHeight() - 80);
+		};
+		$window.on('scroll resize', updateNav);
+		$(updateNav);
+		if ('IntersectionObserver' in window && $header.length) {
+			// Also react when the header enters or leaves the viewport, which
+			// keeps working when scroll events are throttled (iOS momentum scrolling).
+			new IntersectionObserver(updateNav, { rootMargin: '-80px 0px 0px 0px' }).observe($header[0]);
+		}
+
 	// Custom smooth scrolling for navigation buttons
 	$('.scrolly').on('click', function(e) {
 		var href = $(this).attr('href');
@@ -33,8 +46,10 @@
 			e.preventDefault();
 			var target = $(href);
 			if (target.length) {
+				// Leave room for the fixed menu, except when going back to the top.
+				var offset = (href === '#header') ? 0 : $topnav.outerHeight();
 				$('html, body').animate({
-					scrollTop: target.offset().top
+					scrollTop: target.offset().top - offset
 				}, 1000, 'swing');
 			}
 		}

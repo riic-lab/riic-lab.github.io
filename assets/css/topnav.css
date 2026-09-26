@@ -1,0 +1,137 @@
+/* Slim navigation bar, fixed to the top of the viewport.
+   Hidden while the full-screen header (which has the big menu buttons) is on
+   screen; slides in once the visitor scrolls past it, on every screen size. */
+
+html {
+    scroll-padding-top: 3.5em; /* native anchor jumps land below the bar */
+}
+
+#topnav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    height: 3.25em;
+    background: rgba(15, 20, 50, 0.94);   /* same overlay as the header (#header::after) */
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(213, 218, 244, 0.25);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+    transform: translateY(-100%);
+    transition: transform 0.3s ease;
+    padding-top: env(safe-area-inset-top);  /* iPhone notch */
+}
+
+body.nav-visible #topnav {
+    transform: translateY(0);
+}
+
+#topnav .inner {
+    max-width: 60em;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 1.25em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1em;
+}
+
+#topnav .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #ffffff !important;
+    text-decoration: none;
+    border: 0;
+    white-space: nowrap;
+}
+
+#topnav .brand:hover {
+    color: #ffffff !important;          /* keep the wordmark colour on hover as well */
+}
+
+#topnav .brand img {
+    width: 2.1em;   /* small version of the header logo */
+    height: 2.1em;
+    border-radius: 50%;
+    display: block;
+}
+
+#topnav ul {
+    list-style: none;
+    display: flex;
+    gap: 0.6em;
+    margin: 0;
+    padding: 0;
+}
+
+#topnav ul li {
+    padding: 0;
+    margin: 0;
+}
+
+#topnav ul a {
+    display: block;
+    padding: 0 1.1em;
+    line-height: 2.2em;
+    background-color: #2f3a80;          /* same as #header .actions .button */
+    border: 1px solid #ffffff;          /* header buttons: 1px white inset outline */
+    border-radius: 4px;
+    color: #ffffff !important;          /* custom-colors.css forces all links blue with !important */
+    font-size: 0.75em;
+    font-weight: 400;
+    letter-spacing: 0.125em;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color 0.2s ease-in-out;
+}
+
+/* Like the header buttons: no colour change on hover, click or focus */
+#topnav ul a:hover,
+#topnav ul a:focus,
+#topnav ul a:active {
+    background-color: #2f3a80;
+    /* main.css sets a:hover { border-bottom-color: transparent !important },
+       which would erase the lower edge of the outline on hover */
+    border-color: #ffffff !important;
+    color: #ffffff !important;
+}
+
+/* Phones: drop the wordmark, spread the four links across the width */
+@media screen and (max-width: 480px) {
+    #topnav .brand {
+        font-size: 0;      /* hide the wordmark text, keep the logo */
+        gap: 0;
+    }
+
+    #topnav .brand img {
+        width: 30px;
+        height: 30px;
+    }
+
+    #topnav .inner {
+        padding: 0 0.5em;
+    }
+
+    #topnav ul {
+        flex: 1;
+        justify-content: space-around;
+    }
+
+    #topnav ul {
+        gap: 0.35em;
+    }
+
+    #topnav ul a {
+        padding: 0 0.55em;
+        line-height: 2.3em;
+        font-size: 0.68em;
+        letter-spacing: 0.08em;
+    }
+}

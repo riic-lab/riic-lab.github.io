@@ -31,13 +31,15 @@
 /* Navigation Buttons */
 #header .button {
     background-color: #2f3a80ff !important;
-    color: #d5daf4ff !important;
+    color: #ffffff !important;          /* same white as the button outline */
     border-color: #5867c3ff !important;
 }
 
+/* No colour change on hover: a filled hover state hides the white lines
+   that hang below the buttons. */
 #header .button:hover {
-    background-color: #5867c3ff !important;
-    color: #d5daf4ff !important;
+    background-color: #2f3a80ff !important;
+    color: #ffffff !important;
 }
 
 /* Main Sections - Style 1 (Research, Team) */
@@ -260,15 +262,17 @@ body {
 /* Header actions buttons specific styling */
 #header .actions .button {
     background-color: #2f3a80ff !important;
-    color: #d5daf4ff !important;
+    color: #ffffff !important;
     border-color: #5867c3ff !important;
     position: relative;
     z-index: 4;
 }
 
-#header .actions .button:hover {
-    background-color: #5867c3ff !important;
-    color: #d5daf4ff !important;
+#header .actions .button:hover,
+#header .actions .button:active,
+#header .actions .button:focus {
+    background-color: #2f3a80ff !important;
+    color: #ffffff !important;
 }
 
 /* Override any green/teal colors from main CSS with blue palette */
