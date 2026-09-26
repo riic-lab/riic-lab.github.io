@@ -73,9 +73,13 @@ def load_fragment(folder: Path) -> str | None:
         return None
 
     # "src="EMM.png"" -> "src="news/2025-09-24_ensemble/EMM.png""
-    return BARE_SRC_RE.sub(
+    text = BARE_SRC_RE.sub(
         lambda m: f"src={m.group(1)}news/{folder.name}/{m.group(2)}{m.group(1)}", text
     )
+    # News cards sit below the fold. Lazy-loading them keeps the browser's
+    # "load" event (which the template waits for before showing the header)
+    # from being delayed by megabytes of card images.
+    return re.sub(r"<img(?![^>]*\bloading=)", '<img loading="lazy" decoding="async"', text)
 
 
 def format_date(folder_name: str) -> str:

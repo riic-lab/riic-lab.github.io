@@ -20,11 +20,11 @@
 		});
 
 	// Play initial animations on page load.
-		$window.on('load', function() {
-			window.setTimeout(function() {
-				$body.removeClass('is-preload');
-			}, 100);
-		});
+		// Reveal the header as soon as the DOM is ready (plus a short delay for
+		// the sky image), instead of waiting for every image on the page to load.
+		var reveal = function() { $body.removeClass('is-preload'); };
+		$window.on('load', function() { window.setTimeout(reveal, 100); });
+		$(function() { window.setTimeout(reveal, 800); });
 
 	// Custom smooth scrolling for navigation buttons
 	$('.scrolly').on('click', function(e) {
