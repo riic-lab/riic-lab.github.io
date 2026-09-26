@@ -23,6 +23,7 @@ Usage:
 
 import argparse
 import re
+import struct
 import sys
 from datetime import date
 from pathlib import Path
@@ -48,6 +49,70 @@ CARD_INDENT = "\t" * 6
 INNER_INDENT = "\t" * 7
 
 
+def image_size(path: Path) -> tuple[int, int] | None:
+    """Read the pixel width and height from a PNG, JPEG, GIF or WebP header.
+
+    Only the first few bytes of the file are inspected, so this stays fast and
+    needs no imaging library. Returns None for formats it does not understand.
+    """
+    with path.open("rb") as f:
+        head = f.read(32)
+        if head.startswith(b"\x89PNG\r\n\x1a\n"):
+            return struct.unpack(">II", head[16:24])
+        if head.startswith(b"GIF8"):
+            return struct.unpack("<HH", head[6:10])
+        if head.startswith(b"RIFF") and head[8:12] == b"WEBP":
+            chunk = head[12:16]
+            if chunk == b"VP8X":
+                w = int.from_bytes(head[24:27], "little") + 1
+                h = int.from_bytes(head[27:30], "little") + 1
+                return w, h
+            if chunk == b"VP8 ":
+                w, h = struct.unpack("<HH", head[26:30])
+                return w & 0x3FFF, h & 0x3FFF
+            if chunk == b"VP8L":
+                b = head[21:25]
+                w = 1 + (((b[1] & 0x3F) << 8) | b[0])
+                h = 1 + (((b[3] & 0xF) << 10) | (b[2] << 2) | ((b[1] & 0xC0) >> 6))
+                return w, h
+        if head.startswith(b"\xff\xd8"):
+            # JPEG: walk the segments until the first "start of frame" marker.
+            f.seek(2)
+            while True:
+                marker = f.read(2)
+                if len(marker) < 2 or marker[0] != 0xFF:
+                    return None
+                if marker[1] in (0xD8, 0x01) or 0xD0 <= marker[1] <= 0xD7:
+                    continue  # standalone markers without a length
+                (length,) = struct.unpack(">H", f.read(2))
+                if 0xC0 <= marker[1] <= 0xCF and marker[1] not in (0xC4, 0xC8, 0xCC):
+                    f.read(1)  # sample precision
+                    h, w = struct.unpack(">HH", f.read(4))
+                    return w, h
+                f.seek(length - 2, 1)
+    return None
+
+
+def add_dimensions(text: str, folder: Path) -> str:
+    """Give every <img> its pixel width and height so the browser can reserve
+    the space before the file arrives. Without this, each card image that
+    finishes loading pushes the rest of the page down (layout shift)."""
+
+    def fix(m: re.Match) -> str:
+        tag = m.group(0)
+        if re.search(r"\b(width|height)=", tag):
+            return tag  # the author set them by hand; keep that
+        src = BARE_SRC_RE.search(tag)
+        if not src:
+            return tag
+        size = image_size(folder / src.group(2))
+        if not size:
+            return tag
+        return tag.replace("<img", f'<img width="{size[0]}" height="{size[1]}"', 1)
+
+    return re.sub(r"<img\b[^>]*>", fix, text)
+
+
 def load_fragment(folder: Path) -> str | None:
     """Read news.html from a folder and fix its image paths.
 
@@ -71,6 +136,9 @@ def load_fragment(folder: Path) -> str | None:
             file=sys.stderr,
         )
         return None
+
+    # Reserve the image box before rewriting the path (needs the bare filename).
+    text = add_dimensions(text, folder)
 
     # "src="EMM.png"" -> "src="news/2025-09-24_ensemble/EMM.png""
     text = BARE_SRC_RE.sub(

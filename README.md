@@ -28,7 +28,8 @@ Static single-page site (`index.html`), served by GitHub Pages.
    python3 build_news.py
    ```
 
-`build_news.py` needs only the Python standard library. It rewrites the block
+`build_news.py` needs only the Python standard library. It adds `loading="lazy"` and the
+pixel `width`/`height` to every card image, and rewrites the block
 between the `NEWS:START` and `NEWS:END` markers in `index.html`; do not edit
 that block by hand. `python3 build_news.py --check` exits non-zero if the
 page is stale.

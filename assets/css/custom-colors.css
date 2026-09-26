@@ -121,6 +121,23 @@
     background-image: linear-gradient(45deg, #141d4fff, #2f3a80ff 50%, #5867c3ff 95%) !important;
 }
 
+/* Images carry their pixel width/height so the browser can reserve space
+   before they load; CSS must still decide the rendered size, otherwise the
+   height attribute wins and photos get stretched on narrow screens. */
+.image.fit img,
+.news-item img {
+    height: auto;
+    max-width: 100%;
+}
+
+/* Flex children default to min-width:auto, which lets a large image push a
+   column wider than the viewport on phones. */
+#news .col-4.col-12-medium,
+.news-item,
+.main .row.gtr-150 > div {
+    min-width: 0;
+}
+
 /* News Section Styling */
 .news-item {
     position: relative;
